@@ -2,6 +2,7 @@
   "name": "react-express-starter",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -9,14 +10,15 @@
     "express": "^4.18.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "dev": "concurrently --kill-all-others npm:dev:server npm:dev:client",
-    "dev:server": "node server/app.js",
+    "start:server": "nodemon --exec node ./dist/app.js",
+    "dev": "concurrently npm:dev:server npm:dev:client",
     "dev:client": "react-scripts start",
+    "dev:server": "nodemon --exec node ./server/app.js",
+    "compile": "babel ./server --out-dir dist",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -26,7 +28,38 @@
       "react-app",
       "react-app/jest"
     ],
-    "ignores": ["*node_modules*"]    
+    "env": {
+      "es6": true,
+      "browser": true
+    },
+    "rules": {
+      "brace-style": [
+        "error",
+        "stroustrup"
+      ],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
+      "no-unused-vars": [
+        "warn"
+      ],
+      "no-var": [
+        "off"
+      ],
+      "one-var": [
+        "off"
+      ]
+    }
+  },
+  "babel": {
+    "ignore": [
+      "./node_modules"
+    ],
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react"
+    ]
   },
   "browserslist": {
     "production": [
@@ -41,9 +74,13 @@
     ]
   },
   "devDependencies": {
-    "babel": "^6.23.0",
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.4",
+    "@babel/preset-env": "^7.21.4",
     "concurrently": "^8.0.1",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "prettier": "^2.8.7",
+    "react-scripts": "^4.0.3"
   },
-  "proxy": "localhost:5000"
+  "proxy": "http://localhost:5000"
 }
